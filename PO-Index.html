@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Recursos de IA para Product Owners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Report Sections I, II, VI (Intro, Panorama, Conclusion) -> SPA Sections 'Inicio' & 'Consideraciones Clave'. Goal: Inform, Guide. Method: Structured text, bullet points. Interaction: Clickable navigation tabs. Justification: Consolidates introductory and guidance content for easy access.
+        - Report Section III (Canales YouTube) & Table 1 -> SPA Section 'Canales de YouTube'. Goal: Organize, Inform. Method: Interactive cards for each channel. Interaction: Click to expand for details. Justification: Card layout allows quick scanning and deeper dives.
+        - Report Section IV (Vídeos Destacados) & Table 2 -> SPA Section 'Vídeos Destacados'. Goal: Organize, Inform. Method: Interactive cards for each video. Interaction: Click to expand. Justification: Similar to channels, facilitates browsing and detail exploration.
+        - Report Section V (Cursos) & Table 3 -> SPA Section 'Cursos Estructurados'. Goal: Organize, Compare, Detail. Method: Interactive cards, plus two charts.
+            - Chart 1: Bar chart of courses per platform. Goal: Compare. Library: Chart.js. Justification: Visualizes platform distribution.
+            - Chart 2: Doughnut chart of courses covering ethics. Goal: Show proportion. Library: Chart.js. Justification: Highlights importance of ethics coverage.
+        Interaction for cards: Click to expand.
+        - General: All textual content from the report will be adapted and placed into the relevant interactive sections. Links will be represented as clickable elements. NO SVG/Mermaid used. All charts via Chart.js (Canvas). Icons via Unicode.
+        -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-content-full {
+            display: none;
+        }
+
+        .card.open .card-content-full {
+            display: block;
+        }
+
+        .card.open .card-content-summary {
+            display: none;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+    </style>
+</head>
+
+<body class="bg-stone-100 text-stone-800">
+
+    <header class="bg-emerald-700 text-white p-6 shadow-md">
+        <div class="container mx-auto max-w-6xl">
+            <h1 class="text-3xl font-bold">Explorador de Recursos de IA para Product Owners</h1>
+            <p class="mt-1 text-emerald-200">Una guía interactiva para tu aprendizaje en Inteligencia Artificial.</p>
+        </div>
+    </header>
+
+    <nav class="bg-emerald-600 text-white sticky top-0 z-50 shadow">
+        <div class="container mx-auto max-w-6xl">
+            <ul class="flex flex-wrap justify-center sm:justify-start">
+                <li><button
+                        class="tab-button py-3 px-4 hover:bg-emerald-500 focus:outline-none focus:bg-emerald-500 active-tab"
+                        data-tab="inicio">🚀 Inicio</button></li>
+                <li><button class="tab-button py-3 px-4 hover:bg-emerald-500 focus:outline-none focus:bg-emerald-500"
+                        data-tab="canales">📺 Canales de YouTube</button></li>
+                <li><button class="tab-button py-3 px-4 hover:bg-emerald-500 focus:outline-none focus:bg-emerald-500"
+                        data-tab="videos">🎬 Vídeos Destacados</button></li>
+                <li><button class="tab-button py-3 px-4 hover:bg-emerald-500 focus:outline-none focus:bg-emerald-500"
+                        data-tab="cursos">🎓 Cursos Estructurados</button></li>
+                <li><button class="tab-button py-3 px-4 hover:bg-emerald-500 focus:outline-none focus:bg-emerald-500"
+                        data-tab="consideraciones">💡 Consideraciones Clave</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto max-w-6xl p-4 sm:p-6">
+        <section id="inicio" class="tab-content active space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-3">Bienvenido/a Product Owner al Mundo de la IA
+                </h2>
+                <p class="mb-4">La Inteligencia Artificial (IA) está transformando el rol del Product Owner. Para seguir
+                    aportando valor estratégico, es crucial adquirir un conocimiento sólido sobre IA. Esta guía
+                    interactiva te ayudará a navegar por los recursos en vídeo disponibles.</p>
+                <p>El contenido en vídeo es un recurso de aprendizaje accesible y dinámico, ideal para profesionales que
+                    buscan actualizar sus competencias. Aquí encontrarás una selección de canales, vídeos específicos y
+                    cursos para facilitar tu curva deaprendizaje.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold text-emerald-700 mb-3">¿Por qué Vídeos para Aprender IA?</h3>
+                <ul class="list-disc list-inside space-y-2 text-stone-700">
+                    <li><strong>Flexibilidad y Atractivo:</strong> Consume información compleja de manera visual y
+                        auditiva.</li>
+                    <li><strong>Demostraciones Prácticas:</strong> Observa la aplicación de herramientas y conceptos.
+                    </li>
+                    <li><strong>Aprendizaje a Demanda:</strong> Pausa, rebobina y revisa el contenido según tu ritmo.
+                    </li>
+                    <li><strong>Perspectivas Reales:</strong> Contenido de expertos de la industria y académicos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="canales" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-4">Canales de YouTube Clave</h2>
+                <p class="mb-4 text-stone-700">Explora estos canales de YouTube para encontrar discusiones de alto
+                    nivel, tutoriales prácticos y perspectivas de la industria sobre IA para Product Owners.</p>
+            </div>
+            <div id="canales-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="videos" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-4">Vídeos Destacados</h2>
+                <p class="mb-4 text-stone-700">Sumérgete en temas específicos con estos vídeos seleccionados, enfocados
+                    en herramientas, ciclo de vida de productos GenAI y consideraciones éticas.</p>
+            </div>
+            <div id="videos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="cursos" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-4">Cursos Estructurados en Vídeo</h2>
+                <p class="mb-6 text-stone-700">Para un aprendizaje más profundo, considera estos cursos online que
+                    utilizan predominantemente el vídeo y cubren desde fundamentos hasta aplicaciones avanzadas y ética.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="chart-container h-72 sm:h-80 md:h-96 max-h-[400px]">
+                    <canvas id="cursosPorPlataformaChart"></canvas>
+                </div>
+                <div class="chart-container h-72 sm:h-80 md:h-96 max-h-[400px]">
+                    <canvas id="cursosEticaChart"></canvas>
+                </div>
+            </div>
+            <div id="cursos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="consideraciones" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-3">Consideraciones Clave para tu Aprendizaje</h2>
+                <p class="mb-4 text-stone-700">Antes de sumergirte y mientras avanzas en tu aprendizaje de IA, ten en
+                    cuenta estos puntos esenciales para maximizar tu desarrollo como Product Owner.</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">1. Define tu Nivel de Profundidad
+                            Técnica</h3>
+                        <p class="text-stone-700">¿Buscas una comprensión conceptual general o un conocimiento más
+                            profundo de algoritmos y herramientas? Adapta tu selección de recursos a tus objetivos.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">2. Prioriza la Relevancia para el Rol de
+                            PO</h3>
+                        <p class="text-stone-700">Elige contenido que aborde la IA desde la perspectiva de la gestión de
+                            productos: identificación de oportunidades, estrategia, implicaciones para el usuario y
+                            ciclo de vida del producto con IA.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">3. Evalúa Fuentes y Credibilidad</h3>
+                        <p class="text-stone-700">La IA evoluciona rápidamente. Busca contenido actualizado de fuentes
+                            reputadas: empresas líderes, instituciones académicas y profesionales con experiencia
+                            demostrada.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">4. Busca un Enfoque Práctico</h3>
+                        <p class="text-stone-700">Prioriza vídeos con ejemplos prácticos, estudios de caso y
+                            demostraciones. El aprendizaje "haciendo", incluso con prototipos sin código, es muy
+                            valioso.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">5. La IA Ética es Fundamental</h3>
+                        <p class="text-stone-700">Como PO, tienes un rol clave en prevenir daños potenciales. Educa
+                            sobre principios éticos, identifica riesgos, promueve la equidad y la transparencia.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">6. Traza tu Ruta de Aprendizaje</h3>
+                        <ul class="list-disc list-inside space-y-1 text-stone-700 pl-4">
+                            <li><strong>Comienza amplio:</strong> Explora canales generales para una visión general.
+                            </li>
+                            <li><strong>Profundiza selectivamente:</strong> Vídeos específicos para herramientas o
+                                conceptos clave.</li>
+                            <li><strong>Considera cursos estructurados:</strong> Para una base sólida o credenciales.
+                            </li>
+                            <li><strong>Aplica y participa:</strong> Busca la aplicación práctica e interactúa con la
+                                comunidad.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow mt-6">
+                <h2 class="text-2xl font-semibold text-emerald-700 mb-3">Conclusión: Tu Viaje Continuo en IA</h2>
+                <p class="text-stone-700">El aprendizaje de la IA es un viaje continuo y evolutivo. Estos recursos en
+                    vídeo son compañeros valiosos, ofreciendo accesibilidad, demostraciones prácticas y la capacidad de
+                    mantenerte al día. Sé un aprendiz curioso, crítico y proactivo, enfocado en integrar la IA de manera
+                    efectiva y responsable en tu práctica como Product Owner.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center p-6 mt-10 text-sm text-stone-600 border-t border-stone-300">
+        <p>&copy; 2025 Explorador de Recursos de IA para Product Owners. Basado en el informe "Guía de Recursos en Vídeo
+            sobre Inteligencia Artificial para Product Owners".</p>
+    </footer>
+
+    <script>
+        const canalesData = [
+            {
+                nombre: "Mind the Product",
+                url: "https://www.youtube.com/@MindtheProductTV",
+                enfoque: "Impacto de la IA, LLMs, GenAI en la gestión de productos; tendencias de la industria.",
+                destacados: `"LLM workflows for product managers (Niloufar Salehi)", "Product lessons learned making early moves with AI in media (Lindsey Jayne)", "GenAI: The holy grail of product personalisation (Joe Futty)", "A year with ChatGPT and product innovation". Episodio de Product Talks sobre IA.`
+            },
+            {
+                nombre: "Pragmatic Leaders",
+                url: "https://www.youtube.com/c/PragmaticLeaders",
+                enfoque: "Aplicación práctica de IA, IA responsable, clases interactivas.",
+                destacados: `Playlist "AI LIVE Interactive Classes for Product Managers". Posibles vídeos sobre IA responsable basados en su contenido de blog.`
+            },
+            {
+                nombre: "Visily Audio Blog",
+                urlSugerida: "Buscar 'Visily Audio Blog' en YouTube",
+                enfoque: "Herramientas de IA para PMs, impacto de la IA en UI/UX y e-commerce.",
+                destacados: `"Best AI Tools for Product Managers in 2024", "5 Ways AI Is Revolutionizing Ecommerce With Visily".`
+            },
+            {
+                nombre: "Canales de Google PMs",
+                urlSugerida: "Buscar 'Machine Learning for Product Managers Google PM' en YouTube",
+                enfoque: "Perspectivas internas sobre la creación de productos de ML, ciclo de vida, UX con ML.",
+                destacados: `"What Is Machine Learning for Product Managers Like" (Anusha Ramesh).`
+            },
+            {
+                nombre: "Product Leader Summit",
+                url: "https://www.youtube.com/@ProductLeaderSummit",
+                enfoque: "Estrategia de IA para líderes de producto, panorama general de GenAI.",
+                destacados: `"The State of GenAI for Product Leaders 2025 and Beyond".`
+            },
+            {
+                nombre: "The Product Guy",
+                url: "https://www.youtube.com/theproductway",
+                urlSugeridaAlternativa: "Buscar 'The Product Guy JJ Rorie'",
+                enfoque: "Aplicación de IA en product management, valor de la IA.",
+                destacados: `Posibles vídeos sobre "Future of AI in Product Management". Artículos en blog sobre valor de IA.`
+            }
+        ];
+
+        const videosData = [
+            {
+                titulo: "Introducción a ProdPad CoPilot para Product Managers",
+                url1: "https://youtu.be/LcqqORSTvx4",
+                url2: "https://youtu.be/pM63w3W8l0U",
+                aprendizaje: "Demostración práctica de una herramienta de IA para PMs: responder preguntas, encontrar ideas, sugerir iniciativas, generar características.",
+                fuente: "ProdPad"
+            },
+            {
+                titulo: "How AI Tools Make User Story Prioritization Effortless?",
+                url: "https://youtu.be/vk8VeeOlxZg",
+                aprendizaje: "Uso de IA para decisiones basadas en datos, eficiencia en priorización, transparencia y colaboración. Importancia del juicio humano y calidad de datos.",
+                fuente: "Agilemania"
+            },
+            {
+                titulo: "Generative AI Product Management Course Takeaways",
+                urlSugerida: "Buscar 'SaiSatish Vedam Generative AI Product Management' en YouTube",
+                aprendizaje: "Consideraciones clave de GenAI para PMs, el stack GenAI, IA responsable, aprendizaje práctico mediante prototipos.",
+                fuente: "SaiSatish Vedam"
+            },
+            {
+                titulo: "What are the key characteristics of trustworthy AI?",
+                urlSugerida: "Buscar 'Beena Ammanath trustworthy AI' en YouTube",
+                aprendizaje: "Dimensiones de la IA confiable: seguridad, responsabilidad, robustez, fiabilidad.",
+                fuente: "Beena Ammanath / Canales relacionados"
+            },
+            {
+                titulo: "Best AI Tools for Product Managers in 2024",
+                url: "https://youtu.be/XIUjvr18oEE",
+                aprendizaje: "Cómo las herramientas de IA ayudan a entender clientes y mercado, y cómo GenAI puede personalizar descripciones de producto.",
+                fuente: "Visily Audio Blog"
+            },
+            {
+                titulo: "What Is Machine Learning for Product Managers Like",
+                urlSugerida: "Buscar 'Anusha Ramesh Google PM Machine Learning' en YouTube",
+                aprendizaje: "Ciclo de vida de productos ML, recolección de datos, UX con ML, control de modelos, manejo de errores y confianza del usuario.",
+                fuente: "Google PM (Anusha Ramesh)"
+            },
+            {
+                titulo: "Product Categorization Using Machine Learning",
+                urlSugerida: "Buscar 'Great Learning Product Categorization Machine Learning R' en YouTube",
+                aprendizaje: "Introducción a la categorización de productos con ML usando R, estudio de caso y demo.",
+                fuente: "Great Learning"
+            },
+            {
+                titulo: "Product Classification - NLP - Save 10,000 Labor Hours",
+                url: "https://youtu.be/BCXd6DeJVL8",
+                aprendizaje: "Uso de NLP y clasificadores (ej. Random Forest) para automatizar la clasificación de productos, preparación de datos (stopwords, vectorización).",
+                fuente: "(Usuario de YouTube que muestra el proyecto)"
+            }
+        ];
+
+        const cursosData = [
+            {
+                nombre: "AI Product Management Specialization",
+                plataforma: "Duke University (Coursera)",
+                duracion: ">2.5 horas de vídeo (ej. Curso 'Human Factors in AI')",
+                enfoque: "Aplicación de ML, diseño de experiencias IA centradas en el ser humano, gestión de proyectos de ML.",
+                etica: "Sí (Privacidad, ética, sesgo)"
+            },
+            {
+                nombre: "AI Product Manager Professional Certificate",
+                plataforma: "IBM (Coursera)",
+                duracion: "Serie de 10 cursos, cada uno con varias horas de 'lectures'",
+                enfoque: "Principios de PM, GenAI, prompt engineering, modelos fundacionales, ciclo de vida de producto IA.",
+                etica: "Sí (Data Ethics)"
+            },
+            {
+                nombre: "Generative AI for Product Managers",
+                plataforma: "Dr. Marily Nika (LinkedIn Learning)",
+                duracion: "1 hora",
+                enfoque: "Uso de GenAI (ChatGPT) para tareas de PM: ideación, validación, prototipado, pruebas.",
+                etica: "Sí (menciona uso ético)"
+            },
+            {
+                nombre: "AI for Product Owners (Microcredential)",
+                plataforma: "Scrum Alliance",
+                duracion: "Vivo: 4-5h; On-demand: 3-4h (texto principal)",
+                enfoque: "Uso de GenAI en planificación, toma de decisiones, historias de usuario, ciclo de vida, insights. Específico para POs Scrum.",
+                etica: "Sí (Ethical AI in Scrum Practice)"
+            },
+            {
+                nombre: "AI for Product Owners",
+                plataforma: "StarAgile",
+                duracion: "11 horas (sesiones en vivo grabadas y otros)",
+                enfoque: "GenAI, backlog y roadmaps con IA, comunicación, toma de decisiones, herramientas (Jira, Trello, ChatGPT).",
+                etica: "Sí (Consideraciones éticas, privacidad, seguridad)"
+            },
+            {
+                nombre: "The Product Management For AI & Data Science",
+                plataforma: "365 Careers (Udemy)",
+                duracion: "~5 horas (68 lectures)",
+                enfoque: "Rol del PM en IA/DS, conceptos tecnológicos, estrategia, UX, gestión de datos, ciclo de vida de proyectos IA/DS, gestión de equipos.",
+                etica: "Sí (Ética, privacidad, sesgo)"
+            },
+            {
+                nombre: "Artificial Intelligence for Product Certification (AIPC)™",
+                plataforma: "Product School",
+                duracion: "3-4 semanas (2-3 horas/semana clases en vivo)",
+                enfoque: "Estrategia de producto IA, prompt engineering, PRD GenAI, diseño UX nativa de IA.",
+                etica: "Posible en 'estrategia'"
+            }
+        ];
+
+        function createCard(item, type) {
+            const card = document.createElement('div');
+            card.className = 'card bg-white p-5 rounded-lg shadow hover:shadow-xl transition-shadow duration-300 cursor-pointer';
+
+            let title, summary, fullContent, urlHtml = '';
+
+            if (item.url) {
+                urlHtml = `<a href="${item.url}" target="_blank" class="text-emerald-600 hover:text-emerald-800 hover:underline break-all text-sm">Visitar Canal/Recurso <span class="font-sans">&#x2197;</span></a>`;
+            } else if (item.urlSugerida) {
+                urlHtml = `<p class="text-sm text-stone-600">Búsqueda sugerida: "${item.urlSugerida}"</p>`;
+            }
+            if (item.url1 && item.url2) {
+                urlHtml = `<a href="${item.url1}" target="_blank" class="text-emerald-600 hover:text-emerald-800 hover:underline break-all text-sm">Ver Vídeo 1 <span class="font-sans">&#x2197;</span></a><br><a href="${item.url2}" target="_blank" class="text-emerald-600 hover:text-emerald-800 hover:underline break-all text-sm">Ver Vídeo 2 <span class="font-sans">&#x2197;</span></a>`;
+            }
+
+
+            switch (type) {
+                case 'canal':
+                    title = item.nombre;
+                    summary = `<p class="text-stone-600 text-sm">${item.enfoque.substring(0, 100)}...</p>`;
+                    fullContent = `
+                        <p class="text-stone-700 mb-2"><strong>Enfoque Principal:</strong> ${item.enfoque}</p>
+                        <p class="text-stone-700 mb-2"><strong>Vídeos/Playlists Destacados:</strong> ${item.destacados}</p>
+                        ${urlHtml}
+                    `;
+                    break;
+                case 'video':
+                    title = item.titulo;
+                    summary = `<p class="text-stone-600 text-sm">Fuente: ${item.fuente} - ${item.aprendizaje.substring(0, 80)}...</p>`;
+                    fullContent = `
+                        <p class="text-stone-700 mb-2"><strong>Aprendizaje Clave:</strong> ${item.aprendizaje}</p>
+                        <p class="text-stone-700 mb-2"><strong>Fuente/Canal:</strong> ${item.fuente}</p>
+                        ${urlHtml}
+                    `;
+                    break;
+                case 'curso':
+                    title = item.nombre;
+                    summary = `<p class="text-stone-600 text-sm">Plataforma: ${item.plataforma} - ${item.enfoque.substring(0, 70)}...</p>`;
+                    fullContent = `
+                        <p class="text-stone-700 mb-2"><strong>Plataforma:</strong> ${item.plataforma}</p>
+                        <p class="text-stone-700 mb-2"><strong>Duración Estimada (vídeo):</strong> ${item.duracion}</p>
+                        <p class="text-stone-700 mb-2"><strong>Enfoque Principal:</strong> ${item.enfoque}</p>
+                        <p class="text-stone-700 mb-2"><strong>Cubre Ética/IA Responsable:</strong> ${item.etica}</p>
+                    `;
+                    break;
+            }
+
+            card.innerHTML = `
+                <h3 class="text-xl font-semibold text-emerald-700 mb-2">${title}</h3>
+                <div class="card-content-summary text-stone-700">${summary}</div>
+                <div class="card-content-full mt-3 space-y-2 text-stone-700">${fullContent}</div>
+                <button class="text-emerald-600 hover:text-emerald-800 text-sm mt-3 toggle-details-button">Ver más</button>
+            `;
+
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'A') {
+                    card.classList.toggle('open');
+                    const button = card.querySelector('.toggle-details-button');
+                    button.textContent = card.classList.contains('open') ? 'Ver menos' : 'Ver más';
+                }
+            });
+            return card;
+        }
+
+        function renderItems(containerId, data, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            data.forEach(item => {
+                container.appendChild(createCard(item, type));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            const activeTabClass = 'bg-emerald-500';
+            const inactiveTabClass = 'hover:bg-emerald-500';
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.classList.remove(...activeTabClass.split(' '));
+                        if (!t.classList.contains(activeTabClass.split(' ')[0])) { // ensure hover is re-added if not active
+                            t.classList.add(...inactiveTabClass.split(' '));
+                        }
+                    });
+                    tab.classList.add(...activeTabClass.split(' '));
+                    tab.classList.remove(...inactiveTabClass.split(' '));
+
+
+                    contents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+
+            document.querySelector('.tab-button[data-tab="inicio"]').classList.add(...activeTabClass.split(' '));
+            document.querySelector('.tab-button[data-tab="inicio"]').classList.remove(...inactiveTabClass.split(' '));
+
+
+            renderItems('canales-container', canalesData, 'canal');
+            renderItems('videos-container', videosData, 'video');
+            renderItems('cursos-container', cursosData, 'curso');
+
+            const plataformas = {};
+            cursosData.forEach(curso => {
+                plataformas[curso.plataforma] = (plataformas[curso.plataforma] || 0) + 1;
+            });
+
+            new Chart(document.getElementById('cursosPorPlataformaChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(plataformas),
+                    datasets: [{
+                        label: 'Nº de Cursos por Plataforma',
+                        data: Object.values(plataformas),
+                        backgroundColor: 'rgba(22, 163, 74, 0.7)',
+                        borderColor: 'rgba(22, 163, 74, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0 } },
+                        x: { ticks: { callback: function (value) { const label = this.getLabelForValue(value); if (label.length > 15) return label.substring(0, 15) + '...'; return label; } } }
+                    },
+                    plugins: { legend: { display: false }, title: { display: true, text: 'Distribución de Cursos por Plataforma', font: { size: 16 }, color: '#059669' } }
+                }
+            });
+
+            const eticaCounts = cursosData.reduce((acc, curso) => {
+                const cubreEtica = curso.etica.toLowerCase().startsWith('sí') || curso.etica.toLowerCase().startsWith('si ');
+                acc[cubreEtica ? 'Sí Cubre Ética' : 'No Cubre/No Detallado'] = (acc[cubreEtica ? 'Sí Cubre Ética' : 'No Cubre/No Detallado'] || 0) + 1;
+                return acc;
+            }, {});
+
+            new Chart(document.getElementById('cursosEticaChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(eticaCounts),
+                    datasets: [{
+                        label: 'Cobertura de IA Ética en Cursos',
+                        data: Object.values(eticaCounts),
+                        backgroundColor: ['rgba(22, 163, 74, 0.7)', 'rgba(209, 213, 219, 0.7)'],
+                        borderColor: ['rgba(22, 163, 74, 1)', 'rgba(156, 163, 175, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }, title: { display: true, text: 'Cobertura de IA Ética en Cursos', font: { size: 16 }, color: '#059669' } }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
